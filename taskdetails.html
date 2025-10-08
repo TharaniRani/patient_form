@@ -1,0 +1,708 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .hidden {
+        display:none;
+        }
+
+
+    </style>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
+
+
+<body>
+
+
+  <form method="post" action="task.php" enctype="multipart/form-data">  
+  <div class="container">
+  <div class="row">
+   <div class="col-6">
+<!--<div class="row">-->
+    
+  <!-- <div class="col-1">
+
+    <button class="bg-primary" type="button">  Save </button>
+</div>
+
+     <div class="col-1">
+     <button class="bg-danger" type="button">Cancel</button>
+
+    </div> </div> <br>
+    <div class="container mt-3"> -->
+  <!-- Buttons at the top -->
+  <!-- SAVE BUTTON -->
+<button type="submit" class="btn btn-primary me-2" id="save">Save</button>
+
+<!-- CANCEL BUTTON -->
+<a href="dattatable.html" class="btn btn-danger" id="cancel">Cancel</a><br><br>
+
+
+    <label for="doctor">Do you have a Doctor Ordered Prescription?</label><br>
+    <input type="radio" id="yes2" name="doctor" value="YES" onclick="togglePrescription(true)">
+    <label for="yes2">Yes</label>
+    <input type="radio" id="no2" name="doctor" value="NO" onclick="togglePrescription(false)">
+    <label for="no2">No</label>
+    <br>
+     <div id="prescription" class="hidden">
+    <label for="prescription">Is the prescription faxed or electronically sent to DDL Lab from your provider?</label><br>
+    <input type="radio" id="yes" name="prescription" value="Yes" onclick="toggleAdditionalFields(true)">
+    <label for="yes">Yes</label>
+    <input type="radio" id="no" name="prescription"  value ="No" onclick="toggleAdditionalFields(false)">
+    <label for="no">No</label><br>
+                    </div> <!--pres -6 div -->
+                 <div id="additionalFields" class="hidden">
+                  <div id="uploadSection">
+      <label>Please upload your prescription from the tool below:</label><br>
+      <input type="file" name="prescriptionFile"><br>
+                     </div>
+                     </div> <!--additional field div -->
+
+                 
+                  <div id="providerSection" class="hidden">
+
+                   
+                        <div class="col-6">           
+      <label>Select your Provider by start typing the name in the box below:</label><br>
+    
+      <input  class="form-control" type="text" name="providerName"><br>
+        </div>
+                    </div> <!--providersection div -->
+
+
+      <label for="demo"> Patient Demograpics *</label><br>
+                  <div class="row">
+                   <div class="col-4">
+        <input class="form-control" type="text" id="demo"   placeholder="Last Name*" name="lastName" required>
+                   </div>
+
+                    <div class="col-4">
+        <input  class="form-control"  type="text" id="demo" placeholder="First Name*" name="firstName" required>
+                    </div>
+                   <div class="col-4">
+        <input class="form-control"   type="tel" id="demo" placeholder="External Patient ID" name="external_id" maxlength="6" >
+                     </div>
+                      </div> <!--patient demo div -->
+
+      <br>
+                  <div class="row">
+
+                 <div class="col-5">
+
+        <input type="checkbox" id="facility" name="defaullt"> <label for="facility"> Default contact to the facility</label>
+
+                   </div>
+
+                 <div class="col-3">
+        <input type="checkbox" id="sms" name="sms"> <label for="sms"> Allow SMS</label><br>
+
+                     </div>
+
+                         </div> <!--sms div -->
+
+        <br>
+                   <div class="row">
+                   <div class="col-4">
+        <input  class="form-control"  type="email" placeholder="Email*" id="selfacility" name="email" required>
+                     </div>
+                    <div class="col-4"><input class="form-control"  type="tel" placeholder="Mobile Number *" name="mobilenumber" pattern="[0-9]{10}"   minlength="10" maxlength="10" required>
+                    </div>
+                   <div class="col-4"><input class="form-control"  type="text" placeholder="Fax" name="fax">
+                    </div>
+                   </div> <!--details div -->
+
+         <br>
+                  <div class="row">
+                    <div class="col">
+          <label for="ethnicity" required> Ethnicity </label>
+          <input type="radio" id="hispanic" name="ethnicity" value="Hispanic" ><label for="hispanic"> Hispanic </label>
+
+          <input type="radio" id="nondispanic" name="ethnicity" value="Non-Hispanic" ><label for="nondispanic"> Non-Hispanic </label>
+          
+          <input type="radio" id="unknown" name="ethnicity" value="unknown"><label for="unknown"> Unknown/Undisclosed </label>
+                          </div>
+                         </div> <!--hispanic div -->
+            <br>
+            <div class="col-12">
+        <select  class="form-control" name="race"> "text-black bg-info form-control"
+    <option selected>Select Race</option>
+    <option value="American Indian Or Alaska Native">American Indian Or Alaska Native</option>
+    <option value="Asian">Asian</option>
+    <option value="Black or African American">Black or African American</option>
+    <option value="Native Hawaiian or Other Pacific Islander">Native Hawaiian or Other Pacific Islander</option>
+    <option value="White">White</option>
+    <option value="Unknown/Undisclosed">Unknown/Undisclosed</option>
+      </select> </div> <br><br>
+
+                        
+                         
+                          <div id="details">
+                            <div class="row">
+                          <div class="col-2">
+          <label for = "dob" required > Date of Birth</label>
+          </div>
+                      
+                          <div class="col-2">
+        <select class="form-control"  id="month" name="month" required>
+                         
+            <option value=""> Month  </option>
+            <option value="01"> January </option>
+            <option value="02"> February </option> 
+            <option value="03"> March </option>  
+            <option value="04"> April </option>
+            <option value="05"> May   </option>
+            <option value="06"> June   </option>
+            <option value="07"> July   </option>
+            <option value="08">  August  </option>
+            <option value="09"> September </option>
+            <option value="10">October </option>  
+            <option value="11"> November </option>
+            <option value="12"> December  </option>
+             </select>  </div>   
+             
+             <div class="col-2">
+        <select  class="form-control" id="dayy" name="dayy" required>
+
+                       <option value =""> Date  </option>
+                        <option value="01">  1 </option>
+                        <option value="02">  2</option>
+                        <option value="03" >  3</option>
+                        <option value="04">  4</option>
+                        <option value="05">  5</option>
+                        <option value="06">  6</option>
+                        <option value="07">  7</option>
+                        <option value="08">  8 </option>
+                        <option value="09">  9</option>
+                        <option value="10"> 10</option>
+                        <option value="11"> 11</option>
+                        <option value="12"> 12</option>
+                        <option value="13"> 13</option>
+                        <option value="14"> 14</option>
+                        <option value="15"> 15 </option>
+                        <option value="16"> 16 </option>
+                        <option value="17"> 17 </option>
+                        <option value="18"> 18 </option>
+                        <option value="19"> 19 </option>
+                        <option value="20"> 20 </option>
+                        <option value="21"> 21 </option>
+                        <option value="22"> 22 </option>
+                        <option value="23"> 23</option>
+                        <option value="24"> 24</option>
+                        <option value="25"> 25 </option>
+                        <option value="26"> 26</option>
+                        <option value="27"> 27</option>
+                        <option value="28"> 28 </option>
+                        <option value="29"> 29</option>
+                        <option value="30"> 30</option>
+                        <option value="31"> 31</option>
+                        </select></div>
+
+                        <div class="col-2">
+
+            <select class="form-control"  id="year" name="year" required>
+           
+                <option value=""> Year </option>
+                <option value="2016"> 2016 </option>
+                <option value="2017"> 2017 </option>
+                <option value="2018"> 2018 </option>
+                <option value="2019"> 2019 </option>
+                <option value="2020"> 2020 </option>
+                <option value="2021"> 2021 </option>
+                <option value="2022"> 2022 </option>
+                <option value="2023"> 2023 </option>
+                <option value="2024"> 2024 </option>
+                <option value="2025"> 2025 </option>
+                <option value="2026"> 2026 </option>
+                <option value="2027"> 2027 </option>
+            </select>  </div>
+
+            <div class="col-2">
+
+           
+            <select  class="form-control"  id="gender" name="gender" >
+                <option > Gender </option>
+                <option value="Male" > Male</option>
+                <option value="Female" > Female</option>
+                <option value="Others"> Others </option>
+            </select> </div> 
+                         </div> 
+                            </div> <br>
+
+             <!-- <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required>
+             -->     
+                    <div class="row">
+
+                    <div class="col-5">
+
+        <input type="checkbox" id="facility" name="facilitybad"> <label for="facility"> Default contact to the facility</label>
+                     </div>
+
+              <div class="col-3">
+        <input type="checkbox" id="sms" name="sms"> <label for="sms"> Allow SMS</label><br><br>
+
+             </div>
+
+                    </div>
+
+                      <div class="row">
+                      <div class="col-6">
+   
+<input class="form-control"  type="text"  placeholder="Address1" id="address1" name ="Address1">
+
+                          </div>
+
+                     <div class="col-6">
+<input  class="form-control"  type="text" placeholder="Address2" id="address2" name="Address2"><br><br>
+                       </div>
+
+                           </div>
+
+              <div class="row">
+              <div class="col-4">
+
+<input  class="form-control"  type="text" placeholder="City" id="city" name="city"><br><br>
+                </div>
+
+         <div class="col-4">
+<select  class="form-control"  id="state" name="state">
+  <option value="">State</option>
+  <option value="TN">TN</option>
+  <option value="Kerala">Kerala</option>
+  <option value="Karnataka">Karnataka</option>
+  <option value="Madhya pradesh">Madhya Pradesh</option>
+</select>
+                 </div> 
+
+            <div class="col-4">
+
+<input class="form-control"   type="number" id="zipcode" name="zipcode" placeholder="zipcode">
+
+
+                 </div>
+
+
+                 </div>
+
+<div class="row">
+ 
+        <label for = "driver_license"> Driver License </label>
+        <input class="form-control"   type="file" id="driver license" name="driver_license">
+        
+</div><br>
+ <button type="submit" class="btn btn-primary me-4" id="submit">Submit</button>
+</div>       <!--col -6 div -->
+<!-- NExt slide here-->
+               <div class="col-6">
+        <input  type="checkbox" id="onboard">
+        <label for="onboard">Patient Onboarding</label><br>
+        <label for="test"> Test Selection * </label><br>
+
+        <input type="checkbox" id="test1" name="test[]" value="RT-PCR Swab Test"> <label for="test1"> RT-PCR Swab Test  </label><br>
+        <input type="checkbox" id="test2" name="test[]" value="SARS-CoV-2(COVID-19)ANTIBODIES">  <label  for="test2"> SARS-CoV-2(COVID-19)ANTIBODIES </label><br>
+        <input type="checkbox" id="test3" name="test[]" value="Neutralizing Antibody">  <label  for="test3"> Neutralizing Antibody </label><br>
+        <input type="checkbox" id="test4" name="test[]" value="Flu A $ Flu B">  <label for="tes4"> Flu A $ Flu B </label><br>
+        <input type="checkbox" id="test5" name="test[]" value="Dried Blood Spots Neutralizing Antibody">  <label for="test5"> Dried Blood Spots Neutralizing Antibody</label><br>
+        <input type="checkbox" id="test6" name="test[]" value="Monkeypox Virus DNA PCR PANEL">  <label for="test6"> Monkeypox Virus DNA PCR PANEL</label><br><br>
+                       <div class="row">
+                      <div class="col-6">
+        <label    for="attend"> Select facility to attend *</label></div>
+                           <div class="col-6">
+         <label for="date"> Select the date * </label></div> 
+                       </div>
+
+
+        <div class="row">
+          <div class="col-6">
+
+        <select class="form-control"  id="attend" name="attend">
+            <option value=""> --choose </option>
+            <option value="Abby"> Abby </option>
+            <option value="Claymont"> Claymont </option>
+            <option value="Sabre"> Sabre </option>
+            <option value="Placeholder for Jupiter"> Placeholder for Jupiter </option>
+            <option value="Placeholder for SRKite "> Placeholder for SRKite </option>
+            <option value="Placeholder for House of Loving Hands "> Placeholder for House of Loving Hands </option>
+            <option value=" Placeholder for NEW LIFE HEALTHY LIVING"> Placeholder for NEW LIFE HEALTHY LIVING </option>
+            <option value="Placeholder for A BLESSING AWAY FROM HOME"> Placeholder for A BLESSING AWAY FROM HOME </option>
+            <option value="Placeholder for A CARING HAND"> Placeholder for A CARING HAND </option>
+        </select>  </div>
+             <div class="col-6">
+          </div>
+
+        </div>
+        <br>
+                   
+     
+         <div class="col-6">                 
+
+        <label for="swab"> Swab Method</label>
+        <select class="form-control" id="swab" name="swab">
+            <option  value=""> --choose</option>
+            <option value="Nasal"> Nasal</option>
+            <option value="Mouth"> Mouth</option>
+            <option value="Not Availble">Not Available</option>
+        </select>
+         </div>
+         <br>
+        
+                          
+                       
+                                 <div class="row" >
+                                  <div class="col">
+         <label for="payment">Payment Type</label>
+     <input type="radio" id="insurance" name="payment" value="Insurance" onclick="toggleInsuranceForm(true)"><label for="insurance">Insurance</label>
+    <input type="radio" id="outofpocket" name="payment" value="OutofPocket" onclick="toggleInsuranceForm(false)"><label for="outofpocket">Out of Pocket</label>
+     <input type="radio" id="payonsite" name="payment" value="OnSite" onclick="toggleInsuranceForm(false)">   <label for="payonsite">Pay Onsite</label>
+                                </div>
+                              </div><br>
+                            
+     <div id="forinsurance" class="hidden">
+    <label>Primary Insurance</label><br>
+     <div id="Section">
+      <input  class="form-control" type="text" name="Section" placeholder="Search your Insurance"><br>
+     </div>
+
+       <div>
+               
+                  <input type="checkbox" id="check" name="check" > <label> Check here if Insurance Company is not found on the list </label>
+
+      </div> <br>
+
+    <div class="row">
+      <div class="col-4">
+        <label for="relationship">Patient Relationship</label></div>
+ 
+       <div class="col-4">
+      <label for="group">Member ID</label> </div>
+      <div class="col-4">
+         <label for="member">Group ID</label></div>
+    </div>
+
+ <div  class="row">
+    <div class="col-4">
+      <select class="form-control" id="relationship" name="relationship"> 
+          <option selected>Self</option> 
+    </select>
+    </div>
+    <div class="col-4">
+    
+    <input class="form-control" type="number" id="member" name="member"></div>
+
+    <div class="col-4">
+    <input  class="form-control" type="number" id="group" name="group"> </div>
+    </div><br>
+
+
+     <div class="row">
+      <div class="col-4">
+<label for="firstname">First Name</label></div>
+       <div class="col-4">
+<label for="lastname">Last Name</label></div>
+<div class="col-4">
+ <label for="dobinsurance">Date of Birth</label></div>
+     </div>
+
+
+
+<div class="row">
+      <div class="col-4">
+    <input class="form-control" type="text" id="firstname" name="firstname" placeholder="First name"></div>
+         <div class="col-4">
+    <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Last name"></div>
+         <div class="col-4">
+    <input class="form-control" type="date" id="dobinsurance" name="dobinsurance" max="2018-09-08"></div>
+    </div><br>
+
+<input type="checkbox" id="copyAddress" onclick="copyAddressToFacility()">
+<label for="copyAddress">Default billing to the home adddress</label><br><br>
+<div class="row">
+  <div class="col-6">
+<input  class="form-control" type="text" placeholder="Address1" id="facilityAddress1" name="facilityAddress1"> </div>
+ <div class="col-6">
+<input class="form-control" type="text" placeholder="Address2" id="facilityAddress2" name="facilityAddress2">  </div>
+</div><br>
+
+<div class="row">
+   <div class="col-4">
+<input  class="form-control" type="text" placeholder="City" id="facilityCity" name="facilityCity">
+   </div>
+   <div class="col-4">
+
+<select  class="form-control" id="facilityState" name="facilityState">
+  <option value="">State</option>
+  <option value="TN">TN</option>
+  <option value="Kerala">Kerala</option>
+  <option value="Karnataka">Karnataka</option>
+  <option value="Madhya Pradesh">Madhya Pradesh</option>
+</select></div>
+   <div class="col-4">
+
+
+<input  class="form-control" type="number" placeholder="Zip Code" id="facilityZip" maxlength="6" name="facilityZip"></div>
+</div><br>
+
+    <label for="file">  Upload insurance card picture (both front and back)</label><br><br>
+
+    <div class="col-3">
+    <input type="file" id="file1" name="file1"></div>
+    <br>
+     <div class="col-3">
+    <input type="file" id="file2" name="file2"></div>
+</div><br>
+
+    <!--row 1 div -->
+   <br>
+        <label for="travel"> Testing for Travelling </label><br>
+        <div class="col">
+        <input type="radio" id="yes1" name="travel"><label for="yes1"> Yes</label>
+        <input type="radio" id="no1" name="travel"><label for="no1"> No</label>
+        </div>
+        <br>
+
+                                   <div class="row">
+                                  <div class="col-4">
+        <label for="sign" >Patient Signature: </label> 
+                                   </div>
+                            <div class="col-4">
+<input class="text-black bg-info form-control" type="button" value="Clear Signature">
+
+                                </div>
+                               </div>
+        <br>
+                           <div class="col-8">
+        <textarea class="form-control" id="sign"> </textarea><br>
+                           </div>
+
+
+        <label for="status"> Status</label><br>
+        <select  class="form-control" id="status" name="status">
+            <option value="" selected> --choose</option>
+            <option value="Booked">Booked</option>
+            <option value="Pending Referral">Pending Referral</option>
+            <option value="Script Pending">Script Pending</option>
+            <option value="New Physician">New Physician</option>
+            <option value="Payment Pending">Payment Pending</option>
+            <option value="Specimen Collected">Specimen Collected</option>
+            <option value="Pending Results"> Pending Results</option>
+            <option value="No Show">No Show</option>
+            <option value="Cancelled">Cancelled</option>
+        </select><br>
+    </div>
+</div>   
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
+  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+    function togglePrescription(show) {
+      const prescriptionDiv = document.getElementById('prescription');
+      const additionalFields = document.getElementById('additionalFields');
+      const providerSection = document.getElementById('providerSection');
+
+      if (show) {
+        prescriptionDiv.classList.remove('hidden');
+      } else {
+        prescriptionDiv.classList.add('hidden');
+        additionalFields.classList.add('hidden');
+        providerSection.classList.add('hidden');
+
+        document.querySelectorAll('input[name="prescription"]').forEach(el => el.checked = false);
+      }
+    }
+
+   
+    function toggleAdditionalFields(isYes) {
+      const additionalFields = document.getElementById('additionalFields');
+      const providerSection = document.getElementById('providerSection');
+
+      additionalFields.classList.remove('hidden');
+
+      if (isYes) {
+        providerSection.classList.add('hidden');
+      } else {
+        providerSection.classList.remove('hidden');
+      }
+    }
+  function toggleInsuranceForm(isInsurance) {
+    const insuranceForm = document.getElementById('forinsurance');
+
+    if (isInsurance) {
+      insuranceForm.classList.remove('hidden'); 
+    } else {
+      insuranceForm.classList.add('hidden');  
+    }
+  }
+ 
+  function copyAddressToFacility() {
+    const isChecked = document.getElementById('copyAddress').checked;
+
+    if (isChecked) {
+      document.getElementById('facilityAddress1').value = document.getElementById('address1').value;
+      document.getElementById('facilityAddress2').value = document.getElementById('address2').value;
+      document.getElementById('facilityCity').value = document.getElementById('city').value;
+      document.getElementById('facilityState').value = document.getElementById('state').value;
+      document.getElementById('facilityZip').value = document.getElementById('zipcode').value;
+
+      
+      document.getElementById('facilityAddress1').disabled = true;
+      document.getElementById('facilityAddress2').disabled = true;
+      document.getElementById('facilityCity').disabled = true;
+      document.getElementById('facilityState').disabled = true;
+      document.getElementById('facilityZip').disabled = true;
+
+    } else {
+      
+      document.getElementById('facilityAddress1').value = '';
+      document.getElementById('facilityAddress2').value = '';
+      document.getElementById('facilityCity').value = '';
+      document.getElementById('facilityState').value = 'State';
+      document.getElementById('facilityZip').value = '';
+
+      document.getElementById('facilityAddress1').disabled = false;
+      document.getElementById('facilityAddress2').disabled = false;
+      document.getElementById('facilityCity').disabled = false;
+      document.getElementById('facilityState').disabled = false;
+      document.getElementById('facilityZip').disabled = false;
+    }
+  }
+//   $(document).ready(function () {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const patientId = urlParams.get('id');
+
+//     if (patientId) {
+//         // Editing mode → fetch existing patient data
+//         $.ajax({
+//             url: "get_patient.php",
+//             type: "GET",
+//             data: { id: patientId },
+//             success: function (response) {
+//                 let patient = JSON.parse(response);
+
+//                 if (patient) {
+//                     $("input[name='lastName']").val(patient.lastName);
+//                     $("input[name='firstName']").val(patient.firstName);
+//                     $("input[name='external_id']").val(patient.externalId);
+//                     $("input[name='email']").val(patient.email);
+//                     $("input[name='mobilenumber']").val(patient.mobileNumber);
+//                     $("input[name='fax']").val(patient.fax);
+//                     $("input[name='Address1']").val(patient.address1);
+//                     $("input[name='Address2']").val(patient.address2);
+//                     $("input[name='city']").val(patient.city);
+//                     $("select[name='state']").val(patient.state);
+//                     $("input[name='zipcode']").val(patient.zipcode);
+//                     $("select[name='gender']").val(patient.gender);
+//                     $("input[name='date']").val(patient.appointment_date);
+//                     $("select[name='swab']").val(patient.swab);
+//                     $("input[name='attend']").val(patient.facility_name);
+//                     $("select[name='race']").val(patient.race);
+
+//                     // Radio buttons example: ethnicity
+//                     if (patient.ethnicity) {
+//                         $(`input[name='ethnicity'][value='${patient.ethnicity}']`).prop('checked', true);
+//                     }
+
+//                     // Payment type radio
+//                     if (patient.payment_name) {
+//                         $(`input[name='payment'][value='${patient.payment_name}']`).prop('checked', true);
+//                     }
+
+//                     // Show hidden sections based on existing data
+//                     if (patient.prescriptionSent === 'Yes') {
+//                         togglePrescription(true);
+//                         toggleAdditionalFields(true);
+//                     } else if (patient.prescriptionSent === 'No') {
+//                         togglePrescription(true);
+//                         toggleAdditionalFields(false);
+//                     }
+//                 }
+
+//                 // Add hidden input for patient_id if not present
+//                 if ($("#patient_id").length === 0) {
+//                     $("<input>").attr({
+//                         type: "hidden",
+//                         id: "patient_id",
+//                         name: "id",
+//                         value: patientId
+//                     }).appendTo("form");
+//                 }
+//             },
+//             error: function() {
+//                 alert('Unable to fetch patient data.');
+//             }
+//         });
+//     }
+// });
+
+$(document).ready(function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const patientId = urlParams.get('id');
+
+    if (patientId) {
+        // Editing mode → fetch patient data
+        $.ajax({
+            url: "get_patient.php",
+            type: "GET",
+            data: { id: patientId },
+            success: function (response) {
+                let patient = JSON.parse(response);
+
+                if (patient) {
+                    $("input[name='lastName']").val(patient.lastName);
+                    $("input[name='firstName']").val(patient.firstName);
+                    $("input[name='external_id']").val(patient.externalId);
+                    $("input[name='email']").val(patient.email);
+                    $("input[name='mobilenumber']").val(patient.mobileNumber);
+                    $("input[name='fax']").val(patient.fax);
+                    $("input[name='Address1']").val(patient.address1);
+                    $("input[name='Address2']").val(patient.address2);
+                    $("input[name='city']").val(patient.city);
+                    $("select[name='state']").val(patient.state);
+                    $("input[name='zipcode']").val(patient.zipcode);
+                    $("select[name='gender']").val(patient.gender);
+                    $("input[name='date']").val(patient.appointment_date);
+                    $("select[name='swab']").val(patient.swab);
+                    $("select[name='attend']").val(patient.facility_name);
+                    $("select[name='race']").val(patient.race);
+
+                    // Radio example: ethnicity
+                    if (patient.ethnicity) {
+                        $(`input[name='ethnicity'][value='${patient.ethnicity}']`).prop('checked', true);
+                    }
+
+                    // Payment type radio
+                    if (patient.payment_name) {
+                        $(`input[name='payment'][value='${patient.payment_name}']`).prop('checked', true);
+                    }
+
+                    // Add hidden input for patient_id so Save knows it's an update
+                    if ($("#patient_id").length === 0) {
+                        $("<input>").attr({
+                            type: "hidden",
+                            id: "patient_id",
+                            name: "id",
+                            value: patientId
+                        }).appendTo("form");
+                    }
+                }
+            },
+            error: function() {
+                alert('Unable to fetch patient data.');
+            }
+        });
+    }
+});
+</script>
+</div>
+</div>
+</form>
+</body>
+</html>
+

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<link rel="stylesheet" href="//cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">  
+
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+              <div class="d-flex justify-content-end">
+  <a href="taskdetails.html" class="btn btn-primary">Add</a>
+</div>     
+        <table id="myDataTable" class="display">
+  <thead>
+    <tr>
+      <th> Action</th>
+      <th>patient_id</th>
+       <th>doctor</th>
+        <th>prescription</th>
+      <th>lastName</th>
+      <th>firstName</th>
+      <th> dob</th>
+      <th>externalId</th>
+      <th>email</th>
+      <th>mobileNumber</th>
+       <th>fax</th>
+      <th>address1</th>
+      <th>address2</th>
+      <th>ethnicity</th>
+      <th>gender</th>
+      <th> race </th>
+       <th>city</th>
+       <th>driver_license</th>
+      <th>payment_name</th>
+      <th>swab</th>
+       <th>test_name</th>
+      <th>appointment_date</th>
+      <th> facility_name</th>
+      <th>state</th>
+      <th>zipcode</th>
+     
+
+      
+    </tr>
+  </thead>
+</table>
+
+<!-- <div class="modal fade" id="patientModal">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title"> My patients </h2>
+        <button type="button" class="btn-close"  data-bs-dismiss="modal">&times;
+
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+   </div>
+ -->
+
+
+
+
+
+   <!-- ✅ Put the modal code here -->
+        <div class="modal fade" id="patientModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Patient Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="patientDetails">
+                <!-- Patient details will load here -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ✅ Modal code ends here -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Edit Modal
+<div class="modal fade" id="editPatientModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Patient</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="editPatientBody">
+        <!-- Edit form will be loaded here -->
+      <!-- </div>
+    </div>
+  </div>
+</div>  -->
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+// $(document).ready(function(){
+//   $('#myDataTable').DataTable({
+//     ajax:
+//     url: 'fetch_patients.php',
+//     dataSrc: 
+//   })
+
+// }
+
+$(document).ready(function() {
+  // Initialize DataTable
+  $('#myDataTable').DataTable({// js  fails when my table trying to accesss...table select
+    ajax: {
+      url: 'fetch_patients.php',
+      dataSrc: 'data' // where the json array have
+    },
+    columns: [
+      {
+        data: null, // does not directly map to any json filed
+        render: function (data, type, row) {// button, null,, json row,, type context dislplay ,filter,sotrting
+          return `
+           <button class="btn btn-primary btn-sm view-btn" data-id="${row.patient_id}">View</button><br> <br> 
+
+           <a href="taskdetails.html?id=${row.patient_id}" class="btn btn-primary btn-sm">Edit</a><br> <br> 
+
+            
+            <button class="btn btn-primary btn-sm delete-btn" data-id="${row.patient_id}">Delete</button>
+          `;
+        }
+      },// Every button has data-id="42", so JavaScript knows this row is for patient 42.
+      { data: 'patient_id' },
+       { data: 'doctor' },
+      { data: 'prescription' },
+      { data: 'lastName' },
+      { data: 'firstName' },
+      { data: 'dob' },
+      { data: 'externalId' },
+      { data: 'email' },
+      { data: 'mobileNumber' },
+      { data: 'fax' },
+      { data: 'address1' },
+      { data: 'address2' },
+      { data: 'ethnicity' },
+      { data: 'gender' },
+      { data: 'race' },
+      { data: 'city' },
+     // {data: 'driver_license'},
+     
+{
+  data: 'driver_license',
+  render: function (data, type, row) {
+    if (!data)
+     return '—';
+    return ` 
+    <a href= "${data}" target="_blank"> ${row.driver_license} </a>`;
+  }
+},
+
+      { data: 'payment_name' },
+      { data: 'swab' },
+      { data: 'test_name' },
+      { data: 'appointment_date' },
+      { data: 'facility_name' },
+      { data: 'state' },
+      { data: 'zipcode' }
+    ],
+    order: [[1, 'desc']]
+  });
+
+  // ✅ View button (AJAX + modal)
+  $('#myDataTable').on('click', '.view-btn', function() {
+    let patientId = $(this).data('id');
+
+    $.ajax({
+      url: 'view_patient.php',
+      type: 'GET',
+      data: { id: patientId },
+      success: function(response) {
+        $('#patientDetails').html(response);
+        $('#patientModal').modal('show'); // open the modal
+      },
+      error: function() {
+        alert('Unable to fetch patient details.');
+      }
+    });
+  });
+
+$('#myDataTable').on('click', '.edit-btn', function() {
+    let patientId = $(this).data('id');
+    window.location.href = "taskdetails.html?id=" + patientId;
+});
+
+
+  
+
+  // ✅ Delete button
+  $('#myDataTable').on('click', '.delete-btn', function() {
+    let patientId = $(this).data('id');
+    if (confirm('Are you sure you want to delete this patient?')) {
+      $.ajax({
+        url: 'delete_patient.php',
+        type: 'POST',
+        data: { id: patientId },
+        success: function(response) {
+          let res = JSON.parse(response);
+          if (res.status === 'success') {
+            alert('Patient deleted successfully');
+            $('#myDataTable').DataTable().ajax.reload();
+          } else {
+            alert('Error: ' + res.message);
+          }
+        }
+      });
+    }
+  });
+
+});
+</script>
+          
+<!--<button class="btn btn-warning btn-sm edit-btn" data-id="${row.patient_id}">Edit</button>-->
+</body>
+</html>
